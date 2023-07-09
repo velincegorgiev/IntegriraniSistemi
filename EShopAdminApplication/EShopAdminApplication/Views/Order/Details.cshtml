@@ -1,0 +1,34 @@
+﻿@model EShopAdminApplication.Models.Order
+
+<div class="container">
+    <div>
+        <a class="btn btn-warning">Order For: @Model.User.UserName</a>
+    </div>
+
+    <div class="row">
+        @for (int i = 0; i < Model.TicketInOrders.Count(); i++)
+        {
+            var item = Model.TicketInOrders.ElementAt(i).OrderTicket;
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img class="card-img-top" src="@item.Image" alt="Image for product">
+                    <div class="card-body">
+                        <h3 class="card-title">@item.MovieName</h3>
+                        <h4 class="card-title">@item.Description</h4>
+                        <h6>Price: $@item.Price</h6>
+                    </div>
+                </div>
+            </div>
+
+            @if ((i + 1) % 3 == 0 || i == Model.TicketInOrders.Count() - 1)
+            {
+            @:</div>
+            @if (i != Model.TicketInOrders.Count() - 1)
+            {
+                @:<div class="row">
+                }
+        }
+        }
+    </div>
+</div>

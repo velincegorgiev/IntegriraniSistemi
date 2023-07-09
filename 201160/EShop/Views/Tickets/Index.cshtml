@@ -1,0 +1,64 @@
+﻿@model IEnumerable<EShop.Domain.DomainModels.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Add New Ticket</a>
+</p>
+
+<div class="card-container">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <label for="product-select">Select Product by Date:</label>
+            <select id="product-select" class="form-control">
+                <option value="">All Products</option>
+                @foreach (var date in Model.Select(item => item.Date.ToShortDateString()).Distinct())
+                {
+                    <option value="@date">@date</option>
+                }
+            </select>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4 product-card" data-date="@item.Date.ToShortDateString()">
+                <div class="card">
+                    <img class="card-img-top" src="@item.Image" alt="Movie Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.MovieName</h5>
+                        <p class="card-text"><strong>Genre:</strong> @item.Genre</p>
+                        <p class="card-text"><strong>Description:</strong> @item.Description</p>
+                        <p class="card-text"><strong>Date:</strong> @item.Date.ToShortDateString()</p>
+                        <p class="card-text"><strong>Price:</strong> @item.Price</p>
+                        <div class="button-group">
+                            <a class="btn btn-primary custom-button" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a class="btn btn-danger custom-button" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-primary custom-button" asp-controller="Tickets" asp-action="AddToCard" asp-route-id="@item.Id">Add To Card</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#product-select').change(function () {
+                var selectedDate = $(this).val();
+                if (selectedDate) {
+                    $('.product-card').hide();
+                    $('.product-card[data-date="' + selectedDate + '"]').show();
+                } else {
+                    $('.product-card').show();
+                }
+            });
+        });
+    </script>
+}

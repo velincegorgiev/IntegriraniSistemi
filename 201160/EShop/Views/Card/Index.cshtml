@@ -1,0 +1,45 @@
+﻿@model EShop.Domain.DTO.CardDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row m-4">
+        <a class="btn btn-info" asp-controller="Card" asp-action="Order">Order Now</a>
+    </div>
+    <div class="row m-4">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Movie Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Ticket Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Tickeds.Count; i++)
+                {
+                    var item = Model.Tickeds[i];
+                    <tr>
+                        <th scope="row">@(i+1)</th>
+                        <td>@item.Ticket.MovieName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Ticket.Price</td>
+                        <td><a class="btn btn-danger custom-button" asp-controller="Card" asp-action="DeleteFromCard" asp-route-id="@item.Ticket.Id">Delete From ShoppingCart</a></td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot class="thead-dark">
+                <tr>
+                    <th scope="col">Total Price:</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th></th>
+                    <th scope="col">@Model.TotalPrice</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
